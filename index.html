@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Procrastination Logger</title>
+  <style>
+    body {
+      background: #0f172a;
+      color: #e5e7eb;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      margin: 0;
+    }
+
+    .card {
+      background: #020617;
+      padding: 24px;
+      border-radius: 12px;
+      width: 360px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    }
+
+    h1 {
+      margin-top: 0;
+      font-size: 22px;
+    }
+
+    p {
+      color: #9ca3af;
+      font-size: 14px;
+    }
+
+    input {
+      width: 100%;
+      padding: 10px;
+      border-radius: 8px;
+      border: none;
+      margin-top: 12px;
+      margin-bottom: 12px;
+      font-size: 14px;
+    }
+
+    button {
+      width: 100%;
+      padding: 10px;
+      border-radius: 8px;
+      border: none;
+      background: #6366f1;
+      color: white;
+      font-size: 14px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background: #4f46e5;
+    }
+
+    ul {
+      margin-top: 16px;
+      padding-left: 16px;
+    }
+
+    li {
+      font-size: 14px;
+      margin-bottom: 6px;
+      color: #d1d5db;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="card">
+    <h1>Procrastination Logger</h1>
+    <p>What’s getting in the way right now?</p>
+
+    <input id="reasonInput" placeholder="It’s okay, just write whatever comes up…" />
+    <button onclick="logReason()">Note it</button>
+
+    <ul id="logList"></ul>
+  </div>
+
+  <script>
+    let logs = JSON.parse(localStorage.getItem("logs")) || [];
+
+    function saveLogs() {
+      localStorage.setItem("logs", JSON.stringify(logs));
+    }
+
+    function renderLogs() {
+      const list = document.getElementById("logList");
+      list.innerHTML = "";
+
+      logs.forEach(reason => {
+        const li = document.createElement("li");
+        li.innerText = reason;
+        list.appendChild(li);
+      });
+    }
+
+    function logReason() {
+      const input = document.getElementById("reasonInput");
+      const text = input.value;
+
+      if (text === "") return;
+
+      logs.push(text);
+      saveLogs();
+      renderLogs();
+
+      input.value = "";
+    }
+
+    renderLogs();
+  </script>
+</body>
+</html>
